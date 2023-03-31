@@ -1,0 +1,78 @@
+<br>
+<div class="container">
+<div class="col-12">
+  <div class="row">
+    <div class="col-4">
+      <h4 class="text-primary">DANH SÁCH NHÓM NGƯỜI DÙNG</h4>
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th class="text-center">Tên nhóm</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let nhomQuyen of nhomQuyen  ">
+            <td (click)="getNhomQuyenMenuById(nhomQuyen.id)"> {{nhomQuyen.name}} </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-8">
+      <h4 class="text-primary" >TÊN NHÓM: {{nameNhomQuyen}} </h4>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th class="text-center">Tên chức năng</th>
+            <th class="text-center">Danh mục menu</th>
+            <th class="text-center">Thao tác</th>
+            <th class="text-center">Quyền</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let user of nhomQuyenMenu">
+          <tr>
+            <td class="text-center">{{user.menu_item.name}}</td>
+            <td class="text-center">{{user.menu_item.menu.name}}</td>
+            <td class="text-center"><button [hidden]="!check" class="btn btn-primary" [value]="user.id" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="getRole(user)" > Thêm</button></td>
+            <td class=""><p [hidden]="!check">
+              <li *ngFor="let quyen of user.right_id">
+                {{quyen.name}}
+              </li>
+          </p>
+        </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="text-center">Chọn quyền</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-primary">DANH SÁCH QUYỀN</p>
+        <div *ngFor="let ri of rights">
+         <div class="form-check">
+          <input class=" form-check-input" [checked]="equal(listDSNhomQuyenMenu.right_id, ri.name)" *ngIf="equal(listDSNhomQuyenMenu.right_id, ri.name) == true"  type="checkbox" (click)="getCheck(ri)" value="{{ri.id}}" id="{{ri.id}}">
+          <label class="form-check-label" for="{{ri.id}}">
+            {{ri.name}}
+          </label>
+
+          <input class="form-check-input" [checked]="false" *ngIf="equal(listDSNhomQuyenMenu.right_id, ri.name) == false"  type="checkbox" (click)="getCheck(ri)" value="{{ri.id}}">
+          <label class="form-check-label" for="{{ri.id}}">
+          </label>
+        </div>
+        </div>
+      </div>
+      <div class="modal-footer" >
+        <button type="button" class="btn btn-success" (click)="updateRightNhomQuyenMenu(nhomQuyenMenu)" ><i class="fa-sharp fa-solid fa-floppy-disk"></i> Lưu dữ liệu</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fa-sharp fa-solid fa-xmark"></i> Hủy bỏ</button>
+      </div>
+    </div>
+  </div>
+</div>
